@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Adivinhe a Cor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 400px;
+    }
+    .color-box {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      margin: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Olá, adivinhe a cor.</h1>
+  <p>Adivinhe a cor certa!</p>
+  <div id="colors"></div>
+  <script>
+    const colorNames = ['indianred', 'lightcoral', 'salmon', 'darksalmon', 'lightsalmon', 'crimson', 'red', 'firebrick', 'darkred', 'pink', 'lightpink', 'hotpink', 'deeppink', 'mediumvioletred', 'palevioletred', 'coral', 'tomato', 'orangered', 'darkorange', 'orange', 'gold', 'yellow', 'lightyellow', 'lemonchiffon', 'lightgoldenrodyellow', 'papayawhip', 'moccasin', 'peachpuff', 'palegoldenrod', 'khaki', 'darkkhaki', 'lavender', 'thistle', 'plum', 'violet', 'orchid', 'fuchsia', 'magenta', 'mediumorchid', 'mediumpurple', 'blueviolet', 'darkviolet', 'darkorchid', 'darkmagenta', 'purple', 'indigo', 'slateblue', 'darkslateblue', 'mediumslateblue', 'greenyellow', 'chartreuse', 'lawngreen', 'lime', 'limegreen', 'palegreen', 'lightgreen', 'mediumspringgreen', 'springgreen', 'mediumseagreen', 'seagreen', 'forestgreen', 'green', 'darkgreen', 'yellowgreen', 'olivedrab', 'olive', 'darkolivegreen', 'mediumaquamarine', 'darkseagreen', 'lightseagreen', 'darkcyan', 'teal', 'aqua', 'cyan', 'lightcyan', 'paleturquoise', 'aquamarine', 'turquoise', 'mediumturquoise', 'darkturquoise', 'cadetblue', 'steelblue', 'lightsteelblue', 'powderblue', 'lightblue', 'skyblue', 'lightskyblue', 'deepskyblue', 'dodgerblue', 'cornflowerblue', 'royalblue', 'blue', 'mediumblue', 'darkblue', 'navy', 'midnightblue', 'cornsilk', 'blanchedalmond', 'bisque', 'navajowhite', 'wheat', 'burlywood', 'tan', 'rosybrown', 'sandybrown', 'goldenrod', 'darkgoldenrod', 'peru', 'chocolate', 'saddlebrown', 'sienna', 'brown', 'maroon', 'white', 'snow', 'honeydew', 'mintcream', 'azure', 'aliceblue', 'ghostwhite', 'whitesmoke', 'seashell', 'beige', 'oldlace', 'floralwhite', 'ivory', 'antiquewhite', 'linen', 'lavenderblush', 'mistyrose', 'gainsboro', 'lightgray', 'silver', 'darkgray', 'gray', 'dimgray', 'lightslategray', 'slategray', 'darkslategray', 'black', 'transparent', 'rebeccapurple', 'mediumvioletred', 'mediumspringgreen', 'darkolivegreen', 'darkmagenta', 'darkgoldenrod', 'darkcyan']; // Adicione mais cores conforme necessário
+    
+    const selectedColors = [];
+    for (let i = 0; i < 10; i++) {
+      const randomIndex = Math.floor(Math.random() * colorNames.length);
+      selectedColors.push(colorNames[randomIndex]);
+    }
+    
+    const colorsDiv = document.getElementById('colors');
+    selectedColors.forEach(color => {
+      const colorBox = document.createElement('div');
+      colorBox.classList.add('color-box');
+      colorBox.style.backgroundColor = color;
+      colorsDiv.appendChild(colorBox);
+    });
+    
+    const computerChoiceIndex = Math.floor(Math.random() * selectedColors.length);
+    const computerChoice = selectedColors[computerChoiceIndex];
+    
+    let attempts = 3;
+    let gameOver = false;
+    
+    function guessColor(guess) {
+      if (gameOver) return;
+      
+      if (guess === computerChoice) {
+        document.body.style.backgroundColor = computerChoice;
+        alert('Parabéns, você acertou!');
+        gameOver = true;
+      } else {
+        attempts--;
+        if (attempts === 0) {
+          gameOver = true;
+          alert(`Você perdeu! A cor era: ${computerChoice}`);
+        } else {
+          alert(`Errado! Você ainda tem ${attempts} tentativa(s).`);
+        }
+      }
+    }
+    
+    setTimeout(() => {
+      while (!gameOver && attempts > 0) {
+        const userGuess = prompt(`Tentativas restantes: ${attempts}\nEscolha uma das cores: ${selectedColors.join(', ')}`).toLowerCase();
+        if (selectedColors.includes(userGuess)) {
+          guessColor(userGuess);
+        } else {
+          alert('Cor inválida! Escolha uma das cores exibidas.');
+        }
+      }
+    }, 500);
+  </script>
+</body>
+</html>
